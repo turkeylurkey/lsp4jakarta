@@ -46,7 +46,7 @@ public class JakartaDelegateCommandHandlerForJava implements IDelegateCommandHan
 
     private static final String JAVA_CODEACTION_COMMAND_ID = "jakarta/java/codeaction";
     private static final String JAVA_CLASSPATH_COMMAND_ID = "jakarta/java/classpath";
-    private static final String JAVA_COMPLETION_COMMAND_ID = "jakarta/java/completion";
+    private static final String JAVA_CURSORCONTEXT_COMMAND_ID = "jakarta/java/javaCursorContext";
     private static final String JAVA_DIAGNOSTICS_COMMAND_ID = "jakarta/java/diagnostics";
 
     public JakartaDelegateCommandHandlerForJava() {
@@ -61,8 +61,8 @@ public class JakartaDelegateCommandHandlerForJava implements IDelegateCommandHan
                 return getCodeActionForJava(arguments, commandId, monitor).get();
             case JAVA_CLASSPATH_COMMAND_ID:
                 return getContextBasedFilter(arguments, commandId, monitor).get();
-            case JAVA_COMPLETION_COMMAND_ID:
-                return getCompletionForJava(arguments, commandId, monitor).get();
+            case JAVA_CURSORCONTEXT_COMMAND_ID:
+                return getCursorContextForJava(arguments, commandId, monitor).get();
             case JAVA_DIAGNOSTICS_COMMAND_ID:
                 return getDiagnosticsForJava(arguments, commandId, monitor).get();
             default:
@@ -102,7 +102,7 @@ public class JakartaDelegateCommandHandlerForJava implements IDelegateCommandHan
      * @throws JavaModelException
      * @throws CoreException
      */
-    private CompletableFuture<Object> getCompletionForJava(List<Object> arguments, String commandId,
+    private CompletableFuture<Object> getCursorContextForJava(List<Object> arguments, String commandId,
             IProgressMonitor monitor) throws JavaModelException, CoreException {
         return CompletableFutures.computeAsync((cancelChecker) -> {
             JakartaJavaCompletionParams params = createJakartaJavaCompletionParams(arguments, commandId);
