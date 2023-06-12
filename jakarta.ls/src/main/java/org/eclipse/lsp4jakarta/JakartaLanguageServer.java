@@ -16,6 +16,8 @@ package org.eclipse.lsp4jakarta;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
+import org.eclipse.lsp4j.CodeAction;
+import org.eclipse.lsp4j.CodeActionOptions;
 import org.eclipse.lsp4j.CompletionOptions;
 import org.eclipse.lsp4j.InitializeParams;
 import org.eclipse.lsp4j.InitializeResult;
@@ -58,7 +60,10 @@ public class JakartaLanguageServer implements LanguageServer, ProcessLanguageSer
         // Provide Completion Capability to the LS
         initializeResult.getCapabilities().setCompletionProvider(new CompletionOptions());
         initializeResult.getCapabilities().setHoverProvider(true);
-        initializeResult.getCapabilities().setCodeActionProvider(true);
+        CodeActionOptions caOptions = new CodeActionOptions();
+        // Provide code actions that are complete and hence cannot resolve them
+        caOptions.setResolveProvider(Boolean.FALSE); 
+        initializeResult.getCapabilities().setCodeActionProvider(caOptions);
         return CompletableFuture.completedFuture(initializeResult);
     }
 
